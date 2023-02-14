@@ -6,7 +6,7 @@
 /*   By: brmajor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:00:16 by brmajor           #+#    #+#             */
-/*   Updated: 2023/02/13 16:57:50 by brmajor          ###   ########.fr       */
+/*   Updated: 2023/02/14 15:55:54 by brmajor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,17 @@ char	*ft_strjoin(char *dest, char *src)
 	if (!src)
 		return (dest);
 	if (!dest)
-		return (NULL);
-	new = malloc(ft_strlen(dest) + ft_strlen(src) + 1);
+		return (src);
+	i = ft_strlen(dest);
+	j = ft_strlen(src);
+	new = malloc(i + j + 1);
 	if (!new)
 		return (NULL);
-	j = 0;
-	i = 0;
-	while (dest[i])
-	{
+	new[i + j + 1] = '\0';
+	while (j-- != 0)
+		new[i + j] = src[j];
+	while (i-- != 0)
 		new[i] = dest[i];
-		i++;
-	}
-	while (src[j])
-	{
-		new[i] = src[j];
-		i++;
-		j++;
-	}
-	new[i] = '\0';
 	return (new);
 }
 
@@ -71,47 +64,45 @@ int	ft_strchr(char *str, char c)
 char	*ft_split2(char *str, char c)
 {
 	char	*new;
-	int	i;
-	int	j;
+	int		i;
+	int		len;
 
-	i = ft_strlen(str);
-	j = 0;
-	while (str[i] != c)
-	{
-		i--;
-		j++;
-	}
-	new = malloc(j + 1);
+	i = 0;
+	len = 0;
+	while (str[len] != c && str[len])
+		len++;
+	new = malloc(ft_strlen(str) - len + 1);
 	if (!new)
 		return (NULL);
-	j = 0;
-	i++;
-	while (str[i])
+	len++;
+	while (str[len])
 	{
-		new[j] = str[i];
-		j++;
+		new[i] = str[len];
+		len++;
 		i++;
 	}
-	new[j] = '\0';
+	new[i] = '\0';
 	return (new);
 }
 
 char	*ft_split1(char *str, char c)
 {
 	char	*new;
-        int	i;
+	int		i;
+	int		len;
 
 	i = 0;
-	while (str[i] != c)
-		i++;
-	new = malloc(i + 1);
+	len = 0;
+	while (str[len] != c && str[len])
+		len++;
+	new = malloc(len + 1);
 	if (!new)
 		return (NULL);
-	new[i--] = '\0';
-	while (str[i])
+	while (i <= len)
 	{
 		new[i] = str[i];
-		i--;
+		i++;
 	}
+	new[i] = '\0';
 	return (new);
 }
